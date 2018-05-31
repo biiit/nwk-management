@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Observable} from 'rxjs/index';
+import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+
+  public nwks: Observable<NWK[]>;
+  private nwksCollection: AngularFirestoreCollection<NWK>;
+
+  public constructor(db: AngularFirestore) {
+    this.nwksCollection = db.collection<NWK>('nwks');
+    this.nwks = this.nwksCollection.valueChanges();
+  }
+
 }
+
+
